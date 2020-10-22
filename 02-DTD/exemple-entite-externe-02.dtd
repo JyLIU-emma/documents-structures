@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!ENTITY contenu "<contenu>Un cours sur le XML.</contenu>">
+
+<!ELEMENT cours (nom, contenu)>
+<!ELEMENT nom (#PCDATA)>
+<!ELEMENT contenu (#PCDATA)>

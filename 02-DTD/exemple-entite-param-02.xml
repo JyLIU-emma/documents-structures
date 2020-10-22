@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE adresses SYSTEM "exemple-entite-param-02.dtd">
+
+<adresses>
+    <adresse type="actif">
+        <contact>
+            <nom>Pierre</nom>
+            <prenom>Paul</prenom>
+        </contact>
+        <pays>France</pays>
+    </adresse>
+</adresses>

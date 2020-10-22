@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ENTITY % COURS "cours">
+<!ENTITY % STR "#PCDATA">
+
+<!ELEMENT cursus (%COURS;)>
+<!ELEMENT cours (%STR;)>

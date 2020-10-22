@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!ENTITY intitule "Documents Structures">
+
+<!ELEMENT cours (nom)>
+<!ELEMENT nom (#PCDATA)>

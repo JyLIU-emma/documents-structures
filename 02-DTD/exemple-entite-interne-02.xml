@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE cours [
+    <!ENTITY contenu "<contenu>Un cours sur le XML.</contenu>">
+]>
+
+<cours>
+    <nom>Documents Structurés</nom>
+    &contenu;
+</cours>

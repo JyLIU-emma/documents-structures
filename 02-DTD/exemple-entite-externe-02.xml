@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE cours SYSTEM "exemple-entite-externe-02.dtd">
+
+<cours>
+    <nom>Documents Structurés</nom>
+    &contenu;
+</cours>

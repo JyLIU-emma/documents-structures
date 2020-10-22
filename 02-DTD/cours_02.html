@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Documents Structurés</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Cours 02
+## 01/10/2020
+
+---
+## Validation d'un document
+
+La validation d'un document XML sert à vérifier que notre document est conforme à une **grammaire**.
+C'est à dire qu'il est contraint par un ensemble de règles garantissant sa cohérence.
+
+Ainsi lorsque les documents proviennent de sources hétérogènes (par exemple, divers services au sein d'une même entreprise),
+on est sûr que les documents auront tous la même structure.
+
+La création automatique ou manuelle peut aussi entraîner des erreurs de saisie.
+La validation permet de contrôler que tout est bien respecté.
+
+Différents types de schémas existent et ne répondent pas tous aux mêmes spécifications.
+Nous verrons
+
+1. DTD
+2. Schema XML
+3. Schema RelaxNg
+4. Schematron (si le temps)
+
+---
+## 1. **D**ocument **T**ype **D**eclaration
+
+Le plus ancien schéma de validation, hérité du SGML.
+
+Lorsque l'on parle de validation, on fait généralement référence à DTD.
+
+Avantages
+- Facile et rapide à écrire
+
+Inconvéniants
+- Pas de typage de données
+- Gestion des espaces de noms
+- Besoin de décrire l'ensemble du document
+
+---
+### 1. DTD - Syntaxe
+
+En partant de `exemple-basique-2.xml`
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<livres>
+    <livre isbn="00000" genre="science-fiction">
+        <auteur nationalite="zho">
+            <prenom>Cixin</prenom>
+            <nomDeFamille>Liu</nomDeFamille>
+        </auteur>
+        <titre>The Three-Body problem</titre>
+    </livre>
+    <livre isbn="00001" genre="tragédie gothique">
+        <auteur nationalite="eng">
+            <prenom>Emily</prenom>
+            <nomDeFamille>Brontë</nomDeFamille>
+        </auteur>
+        <titre>Wuthering Heights</titre>
+    </livre>
+</livres>
+```
+
+---
+### 1. DTD - Appel
+
+#### DTD externe
+Elle est stockée dans un fichier avec pour extension `.dtd`.
+L'appel dans notre document XML sera
+```xml
+<!DOCTYPE livres SYSTEM "exemple-basique-2.dtd">
+```
+
+####  DTD interne
+Elle se place avant la racine du document.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE livres [
+    ...
+]>
+
+<livres>
+    ...
+</livres>
+```
+
+---
+### 1. DTD - Syntaxe
+
+#### Définition d'un élément
+Un élément est introduit par `ELEMENT` suivis du nom de l'élément que l'on souhaite décrire et de son contenu.
+Le contenu représente les éléments placés sous l'élément décrit.
+
+⚠️  Une balise de la DTD à pour syntaxe `<! >`
+
+```xml
+<!ELEMENT nomElement categorie>
+ou
+<!ELEMENT nomElement (DEFINITION-CONTENU)>
+```
+
+--
+
+En reprenant notre exemple précédant (sans les attributs)
+```xml
+<!ELEMENT livres (livre+)>
+<!ELEMENT livre (auteur, titre)>
+<!ELEMENT auteur (prenom, nomDeFamille)>
+<!ELEMENT prenom (#PCDATA)>
+<!ELEMENT nomDeFamille (#PCDATA)>
+<!ELEMENT titre (#PCDATA)>
+```
+
+---
+### 1. DTD - Syntaxe
+
+La définition du contenu d'un élément peut prendre plusieurs valeurs
+
+- `EMPTY`: les éléments vides comme `<hello />` mais il peut contenir des attributs.
+- `ANY`: n'importe quel élément de la DTD.
+````xml
+<!ELEMENT hello EMPTY>
+<!ELEMENT tout ANY>
+```
+
+---
+
+- `(#PCDATA)` : _Parsable Character Data_, un contenu textuel que le parser peut traiter. ⚠️  Ne pas oublier le \#.
+
+- `(elementNom)` : un élément mis entre parenthèses, qui indique que l'élément décrit aura pour fils celui entre parenthèses.
+
+- un ensemble d'éléments que ce soit un élément fils et/ou bien un `#PCDATA`.
+    - si l'ensemble est séparé par une virgule `','` alors les éléments sont obligatoires
+        - `(elementNom1, elementNom2)`
+    - si l'ensemble est séparé par un pipe `'|'` alors il s'agit d'un choix
+        - `(elementNom1 | elementNom2)`
+    - un mixte des deux est possible
+        - `(elementNom1, elementNom2 | elementNom3)`
+        - un élément `elementNom1` et un (`elementNom2` ou un `elementNom3`)
+    - Cas particulier, contenu mixte avec un `#PCDATA`
+        - déclaration de la forme `(#PCDATA | elementNom1)*`
+        - ⚠️  `#PCDATA` vient en premier, ne pas oublier `'*'`
+---
+### 1. DTD - Syntaxe
+
+Il est également possible de quantifier les éléments avec les opérateurs suivants
+- `?` : 0 ou 1 fois
+- `*` : 0 à _n_ fois
+- `+` : 1 à _n_ fois
+
+Ils se positionnent dans le contenu à définir, sur l'élément voulu ou bien l'ensemble des éléments.
+```xml
+<!ELEMENT livres (livre+)>
+<!ELEMENT auteur (prenom?, nom)>
+```
+
+---
+### 1. DTD - Syntaxe
+
+#### Définition d'un attribut
+Un attribut est introduit par le mot-clé `ATTLIST`. La déclaration de l'attribut est indépendante de celle de l'élément,
+il faut donc à nouveau préciser le nom de celui-ci.
+
+````xml
+<!ATTLIST nom-element nom-attribut TYPE OBLIGATION VALEUR-PAR-DEFAUT>
+```
+
+````xml
+<!-- Dans notre exemple -->
+<!ATTLIST livre
+          genre CDATA #REQUIRED
+          isbn CDATA #REQUIRED>
+<!ATTLIST auteur
+          nationalite CDATA #REQUIRED>
+```
+
+---
+### 1. DTD - Syntaxe
+
+Comme pour les éléments, plusieurs critères sont possibles pour qualifier un attribut
+
+- `TYPE`
+    - `CDATA` : du texte (suite quelconque de caractères)
+    - `NMTOKEN` : une chaîne de caractères (chiffres, lettres, `:`, `_`, `-`, `.`) sans espace blanc.
+    - `NMTOKENS` : une liste de mots (séparateur = espace blanc)
+        - `<exemple utilisateurAutorise="Luke Leia Han"/>`
+    - `ID` : un identifiant unique (mélange de chiffres et de lettres)
+    - `IDREF` : une référence vers un `ID`
+    - `IDREFS` : une liste de références vers des `ID` (séparateur = espace blanc)
+    - une énumération de valeurs, séparée par un `'|'`
+- `OBLIGATION` : définit si l'attribut est requis ou non
+    - `#REQUIRED` : l'attribut est obligatoire
+    - `#IMPLIED` : l'attribut est optionnel
+    - `#FIXED` : on définit la valeur de l'attribut, on force à utiliser la valeur souhaitée
+- `VALEUR-PAR-DEFAUT` : la valeur par défaut
+
+---
+### 1. DTD - Exercice
+
+Reprendre le fichier xml que vous avez décrit au précédant cours.
+1. Écrire la dtd **externe** du document par vous-même.
+2. Vérifier sa validité avec `xmllint`. Si l'output est le document, alors le document est ok.
+
+```bash
+# Vérification de la bonne formation du document
+xmllint nom-xml.xml
+
+# Vérification de la validité
+xmllint --dtdvalid nom-dtd.dtd nom-xml.xml
+```
+
+---
+### DTD - Entités
+
+- Une entité associe un nom à une valeur
+- Sorte d'alias ou raccourci
+- Une entité peut être
+    - **interne** au document
+    - **externe** au document (déclarée dans un fichier)
+- S'emploie dans un XML pour remplacer un contenu
+
+```xml
+<!-- XML, interne -->
+<!ENTITY nom "valeur">
+
+<!-- XML, externe -->
+<!ENTITY nom SYSTEM "nom-fichier">
+```
+
+---
+### DTD - Entités
+
+#### Exemple d'entité interne
+
+Voir fichier `exemple-entite-interne-01.xml`.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE cours [
+    <!ENTITY intitule "Documents Structures">
+]>
+
+<cours>
+    <nom>&intitule;</nom>
+</cours>
+```
+
+Ici `&intitule;` prend la valeur de "Documents Structures" lors de la lecture du fichier XML.
+
+---
+### DTD - Entités
+
+#### Exemple d'entité externe
+
+Voir fichiers `exemple-entite-externe-01.xml` et `exemple-entite-externe-01.dtd`.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE cours SYSTEM "exemple-entite-externe-01.dtd">
+
+<cours>
+    <nom>&intitule;</nom>
+</cours>
+```
+
+``` xml
+<!ENTITY intitule "Documents Structures">
+```
+
+Le résultat obtenu sera le même que précédemment.
+
+---
+### DTD - Entités
+
+On peut également injecter un fragment XML dans notre document.
+
+Voir `exemple-entite-interne-02.xml`, `exemple-entite-externe-02.xml`, `exemple-entite-externe-02.dtd` 
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE cours [
+    <!ENTITY contenu "<contenu>Un cours sur le XML.</contenu>">
+]>
+
+<cours>
+    <nom>Documents Structurés</nom>
+    &contenu;
+</cours>
+```
+
+Le résultat sera
+
+```xml
+<cours>
+    <nom>Documents Structurés</nom>
+    <contenu>Un cours sur le XML.</contenu>
+</cours>
+```
+
+---
+### DTD - Entités
+
+Cette fois-ci le fragment vient d'un autre fichier XML.
+
+```xml
+<!-- Fichier "exemple-entite-externe-03.xml" -->
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE cours [
+    <!ENTITY contenu SYSTEM "exemple-entite-externe-fragment-03.xml">
+]>
+
+<cours>
+    <nom>Documents Structurés</nom>
+    &contenu;
+</cours>
+
+```
+
+```xml
+<!-- Fichier "exemple-entite-externe-fragment-03.xml" -->
+<contenu>Un cours sur le XML.</contenu>
+```
+
+Le résultat sera
+
+```xml
+<cours>
+    <nom>Documents Structurés</nom>
+    <contenu>Un cours sur le XML.</contenu>
+</cours>
+```
+
+---
+### DTD - Entités
+
+#### Entités par défaut
+
+Il existe certains caractères réservés en XML, ils ont donc une équivalence par défaut
+qui est une entité.
+
+(Il n'y a pas d'espace entre `&` et le premier caractère)
+
+```xml
+& lt;        remplace le caractère: <
+& gt;        remplace le caractère: >
+& amp;       remplace le caractère: &
+& quot;      remplace le caractère: "
+& apos;      remplace le caractère: '
+```
+
+---
+### DTD - Entités
+
+#### Entités paramétriques
+
+Il existe également des entités paramétriques, qui remplace un élément de syntaxe de la DTD.
+
+La syntaxe est différente, au moment de la déclaration de l'entité, on précéde son nom du caractère `%`.
+
+```xml
+<!-- DTD, entité paramétrique interne -->
+<!ENTITY % nom "valeur">
+
+<!-- DTD, entité paramétrique externe -->
+<!ENTITY % nom SYSTEM "nom-fichier">
+```
+- ⚠️  Noter l'ajout du `'%'`
+- ⚠️  Un document XML avec une DTD interne, ne peut contenir d'entités paramétriques
+
+---
+### DTD - Entités
+
+```xml
+<!ENTITY % COURS "cours">
+<!ENTITY % STR "#PCDATA">
+
+<!ELEMENT cursus (%COURS;)>
+<!ELEMENT cours (%STR;)>
+```
+
+```xml
+<!DOCTYPE cursus SYSTEM "exemple-entite-param.dtd">
+
+<cursus>
+    <cours>Documents Structurés</cours>
+</cursus>
+```
+
+- Définition d'une entité paramètrique `STR` qui a pour valeur `#PCDATA`
+- et d'une entité `COURS` qui représente l'élément `cours`
+
+---
+### DTD - Entités
+
+Voir `exemple-entite-param-02.xml` et `exemple-entite-param-02.dtd`.
+
+```xml
+<!DOCTYPE adresses SYSTEM "exemple-entite-param-02.dtd">
+<adresses>
+    <adresse type="actif">
+        <contact>
+            <nom>Pierre</nom>
+            <prenom>Paul</prenom>
+        </contact>
+        <pays>France</pays>
+    </adresse>
+</adresses>
+```
+
+```xml
+<!ENTITY % personne "(nom, prenom)">
+<!ENTITY % REQ "#REQUIRED">
+
+<!ELEMENT adresses (adresse+)>
+<!ELEMENT adresse (contact, pays)>
+<!ATTLIST adresse type CDATA %REQ;>
+<!ELEMENT contact (%personne;)>
+<!ELEMENT pays (#PCDATA)>
+<!ELEMENT nom (#PCDATA)>
+<!ELEMENT prenom (#PCDATA)>
+```
+
+---
+### DTD - Entités
+
+#### Exercice
+1. Dans le moteur de recherche de votre navigateur préféré tapez : fnac baladeur mp3
+2. Modélisez un document XML ainsi que sa DTD externe à partir des informations présentes. Ce document représentera au moins 5 des baladeurs de la page “afficher tout”, avec le maximum de marques différentes
+3. Attention : l’intérêt de l’exercice réside dans l’utilisation de la notion d'entités...
+4. Consigne supplémentaire : chaque baladeur possédera un attribut "id" et un élément "marque" qui seront renseignés
+
+---
+### DTD - Entités
+
+#### Exercice
+
+Faire l'exercice sur les entités
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ENTITY % personne "(nom, prenom)">
+<!ENTITY % REQ "#REQUIRED">
+
+<!ELEMENT adresses (adresse+)>
+<!ELEMENT adresse (contact, pays)>
+<!ATTLIST adresse type CDATA %REQ;>
+
+<!ELEMENT contact (%personne;)>
+
+
+<!ELEMENT pays (#PCDATA)>
+<!ELEMENT nom (#PCDATA)>
+<!ELEMENT prenom (#PCDATA)>

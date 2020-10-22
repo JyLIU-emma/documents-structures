@@ -1,0 +1,21 @@
+<?xml encoding="UTF-8"?>
+
+<!ENTITY sf "science-fiction"> 
+
+<!ELEMENT livres (livre)+>
+
+<!ELEMENT livre (auteur,titre)>
+<!ATTLIST livre
+  genre CDATA #REQUIRED
+  isbn CDATA #REQUIRED>
+
+<!ELEMENT auteur (prenom,nomDeFamille)>
+<!ATTLIST auteur
+  nationalite NMTOKEN #REQUIRED>
+
+<!ELEMENT titre (#PCDATA)>
+
+<!ELEMENT prenom (#PCDATA)>
+
+<!ELEMENT nomDeFamille (#PCDATA)>
+
