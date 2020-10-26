@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-model href="factbook-minimal.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<mondial>
+    <continent id="C1" name="Europe"/>
+    <continent id="C2" name="Asia"/>
+    <country id="P1" name="France" gdp_total="2715520000000" gdp_agri="7732000000">
+        <name>France</name>
+        <city longitude="2°21′07″E" latitude="48°51′24″N">
+            <name>Paris</name>
+            <population xmlns="inalco:documents-structures:ns">2148000</population>
+        </city>
+    </country>
+    <country id="P2" name="Chine" gdp_total="14342900000000" gdp_agri="61192726000">
+        <name>China</name>
+        <city longitude="116°23′15″E" latitude="39°54′13″N">
+            <name>Beijing</name>
+            <population xmlns="inalco:documents-structures:ns">21540000</population>
+            <located_at/>
+        </city>
+        <city longitude="108°42′33″E" latitude="34°19′47″N">
+            <name>Xianyang</name>
+            <population xmlns="inalco:documents-structures:ns">4972400</population>
+        </city>
+    </country>
+</mondial>
