@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT baladeurs (baladeur+)>
+<!ELEMENT baladeur (nom, prix, stockage)>
+<!ELEMENT nom (#PCDATA)>
+<!ATTLIST nom
+          marque CDATA #REQUIRED
+          type CDATA #REQUIRED>
+<!ELEMENT prix (#PCDATA)>
+<!ELEMENT stockage (#PCDATA)>
+<!ENTITY pomme "Apple iPod Touch">

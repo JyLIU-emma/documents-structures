@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--DOCTYPE baladeurs SYSTEM "baladeur.dtd"-->
+<!DOCTYPE baladeurs [<!ENTITY pomme "Apple iPod Touch">]>
+<baladeurs>
+    <baladeur>
+        <nom marque="Apple" type="mp3/mp4">&pomme; 32 Go Bleu</nom>
+        <prix>249.99euros</prix>
+        <stockage>32Go</stockage>
+    </baladeur>
+    <baladeur>
+        <nom marque="Apple" type="mp3/mp4">&pomme; V 64 Go Silver - Argent</nom>
+        <prix>158euros</prix>
+        <stockage>64Go</stockage>
+    </baladeur>
+    <baladeur>
+        <nom marque="Apple" type="mp3/mp4">&pomme; 128 Go Argent</nom>
+        <prix>359.99euros</prix>
+        <stockage>128Go</stockage>
+    </baladeur>
+    <baladeur>
+        <nom marque="Sony" type="mp3/mp4">Lecteur Audio Bluetooth Sony NW-A55L Haute Résolution 16 Go Noir</nom>
+        <prix>208.99</prix>
+        <stockage>16Go</stockage>
+    </baladeur>
+    <baladeur>
+        <nom marque="Fiio" type="mp3/mp4">Fiio M11 Noir - Baladeur Audiophile</nom>
+        <prix>730euros</prix>
+        <stockage>32Go</stockage>
+    </baladeur>
+</baladeurs>
