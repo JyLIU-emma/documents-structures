@@ -67,7 +67,7 @@ Dans cet exemple, je vais dire "sélectionne le noeud racine" ensuite écrit l'�
 </html>
 ```
 
-![apply-templates_vide] (./img-exemple/effet_apply-templates_vide.png)  
+![apply-templates_vide] (img-exemple/effet_apply-templates_vide.png "apply-templates")  
 Ici, ce `<xsl:apply-templates />` extrait le contenu texte de l'élément. Puisqu'il aura plus de règles après, on lui rajoute pas de balise. Mais, pensez à utiliser cette astuce quand on veut rajouter une balise sur les noeuds-fils (n'apparaissent pas forcément, à n'importe quel l'ordre) des éléments d'un nom précis. Par exemple, dans fichier html, transformer tous les caractères en italique dans un paragraphes en gras. 
 
 Quand on crée un template qui fait rien, on voit l'effet de son exécution quand même (ligne vide).  
