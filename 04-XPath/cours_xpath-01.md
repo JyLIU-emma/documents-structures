@@ -203,69 +203,69 @@ Il est possible de mélanger les notations abrégrées avec les notations compl�
 21. Afficher tous les noeuds `juicer` avec une url en `.html`  
 `//juicer/retailer[contains(text(), 'html')]`  
 
-### Partie 2
 
-À partir du fichier `PDV.xml` 
+### Partie 2
 
+À partir du fichier `PDV.xml`  
 (2e correction est la version du prof)
 
-1. L'élément racine du document
-`/`
-2. Tous les noeuds enfants de `<pdv>`
-`/pdv_liste/pdv/child::*`
-`/pdv_liste/pdv/child::node()`
-3. Les noeuds textes de toutes les villes
-`/pdv_liste/pdv/ville/text()`
-4. Le 46ième point de vente
-`/pdv_liste/pdv[46]`
-5. Le dernier élément `<prix>` de chaque point de vente
-`/pdv_liste/pdv/prix[last()]`
-`/pdv_liste/pdv/prix[position()=last()]`
-6. Le point de vente dont l'ID est 3150005
-`/pdv_liste/pdv[@id = "3150005"]`
-7. Les points de vente qui ne proposent pas de "GPL" 
-`/pdv_liste/pdv[child::services [not(child::service[text() = "GPL"])]]`
-`//pdv[services[not(service[text()="GPL"])]]`
-8. Tous les noeuds frères à droite de l'élément `<services>`
-`/pdv_liste/pdv/services/following-sibling::*`
-9. La ou les ville(s) dont le code postal est 16170
-`/pdv_liste/pdv[@cp = "16170"]/ville`
-10. Les points de vente qui ne sont pas ouverts le lundi
-`/pdv_liste/pdv[ouverture/@saufjour = "Lundi"]`
-`/pdv_liste/pdv[ouverture[@saufjour="Lundi"]]`
-11. Les points de vente ouvrant le service "Relais colis"
-`/pdv_liste/pdv[descendant::service/text() = "Relais colis"]`
-`//service[text()="Relais colis"]/../parent::*`
-12. Le ou les éléments dont le 10ième élément venant à droite a pour valeur textuelle "Piste poids lourds"
-`//*[following::*[10]/text() = "Piste poids lourds"]`
-`//*[following::*[10] ="Piste poids lourds"]`
-13. La ou les ville(s) dont le point de vente a été en rupture de "SP95" le 04 février 2013
-`//pdv[rupture[@nom = "SP95" and contains(@début,"2013-02-04")]]`
-`//rupture[@nom="SP95" and matches(@début, '2013-02-04')]/..`
-14. Tous les points de vente qui n'ont pas connu de fermeture
-`//pdv[fermeture[not(node())]]`
-`/pdv_liste/pdv/fermeture[not(@*)]/..`
-15. Est-ce que la ville de La Mure propose du carburant E10 ? Écrire la requête.
-`/pdv_liste/pdv[ville = "La Mure" and prix/@nom = "E10"]`
-`/pdv_liste/pdv/ville[text()="La Mure"]/../prix[@nom="E10"]`
-16. Combien existe t-il de points de vente ? 10824
-`/pdv_liste/count(pdv)`
-`count(//pdv)`
-17. Écrire une expression pour compter la longueur de la chaîne de caractères des éléments `<adresse>`
-`//adresse/string-length(text())`
-`//adresse/string-length()`
-18. Reprendre cette expression et trouver la valeur maximale  75
-`max(//adresse/string-length(text()))`
-`max(//adresse/string-length())`
-19. Selectionner les points de vente qui ne ferment pas à `20:00`
-`/pdv_liste/pdv[ouverture/@fin != "20:00"]`
-`//pdv[ouverture[@fin!="20:00"]]`
-20. Afficher le nom des différents carburants proposés en minuscule
-`distinct-values(//pdv/prix/lower-case(@nom))`
-`//prix/lower-case(@nom)`
-21. Remplacer le point contenu dans l'attribut `latitude` par `--` (Attention, il faudra échapper le point)
-`//pdv/translate(@latitude,".","--")`
-`//pdv/replace(@latitude,"\.", "--")`
-22. Inverser la date et l'heure dans les attributs `maj`, et changer le séparateur par `T` (t majuscule)
-`//pdv/prix/string-join((substring-after(@maj ," "),substring-before(@maj , " ")),"T")`
-`/pdv_liste/pdv/prix/string-join(reverse(tokenize(@maj, ' ')), 'T')`
+1. L'élément racine du document  
+`/`  
+2. Tous les noeuds enfants de `<pdv>`  
+`/pdv_liste/pdv/child::*`  
+`/pdv_liste/pdv/child::node()`  
+3. Les noeuds textes de toutes les villes  
+`/pdv_liste/pdv/ville/text()`  
+4. Le 46ième point de vente  
+`/pdv_liste/pdv[46]`  
+5. Le dernier élément `<prix>` de chaque point de vente  
+`/pdv_liste/pdv/prix[last()]`  
+`/pdv_liste/pdv/prix[position()=last()]`  
+6. Le point de vente dont l'ID est 3150005  
+`/pdv_liste/pdv[@id = "3150005"]`  
+7. Les points de vente qui ne proposent pas de "GPL"   
+`/pdv_liste/pdv[child::services [not(child::service[text() = "GPL"])]]`  
+`//pdv[services[not(service[text()="GPL"])]]`  
+8. Tous les noeuds frères à droite de l'élément `<services>`  
+`/pdv_liste/pdv/services/following-sibling::*`  
+9. La ou les ville(s) dont le code postal est 16170  
+`/pdv_liste/pdv[@cp = "16170"]/ville`  
+10. Les points de vente qui ne sont pas ouverts le lundi  
+`/pdv_liste/pdv[ouverture/@saufjour = "Lundi"]`  
+`/pdv_liste/pdv[ouverture[@saufjour="Lundi"]]`  
+11. Les points de vente ouvrant le service "Relais colis"  
+`/pdv_liste/pdv[descendant::service/text() = "Relais colis"]`  
+`//service[text()="Relais colis"]/../parent::*`  
+12. Le ou les éléments dont le 10ième élément venant à droite a pour valeur textuelle "Piste poids lourds"  
+`//*[following::*[10]/text() = "Piste poids lourds"]`  
+`//*[following::*[10] ="Piste poids lourds"]`  
+13. La ou les ville(s) dont le point de vente a été en rupture de "SP95" le 04 février 2013  
+`//pdv[rupture[@nom = "SP95" and contains(@début,"2013-02-04")]]`  
+`//rupture[@nom="SP95" and matches(@début, '2013-02-04')]/..`  
+14. Tous les points de vente qui n'ont pas connu de fermeture  
+`//pdv[fermeture[not(node())]]`  
+`/pdv_liste/pdv/fermeture[not(@*)]/..`  
+15. Est-ce que la ville de La Mure propose du carburant E10 ? Écrire la requête.  
+`/pdv_liste/pdv[ville = "La Mure" and prix/@nom = "E10"]`  
+`/pdv_liste/pdv/ville[text()="La Mure"]/../prix[@nom="E10"]`  
+16. Combien existe t-il de points de vente ? 10824  
+`/pdv_liste/count(pdv)`  
+`count(//pdv)`  
+17. Écrire une expression pour compter la longueur de la chaîne de caractères des éléments `<adresse>`  
+`//adresse/string-length(text())`  
+`//adresse/string-length()`  
+18. Reprendre cette expression et trouver la valeur maximale  75  
+`max(//adresse/string-length(text()))`  
+`max(//adresse/string-length())`  
+19. Selectionner les points de vente qui ne ferment pas à `20:00`  
+`/pdv_liste/pdv[ouverture/@fin != "20:00"]`  
+`//pdv[ouverture[@fin!="20:00"]]`  
+20. Afficher le nom des différents carburants proposés en minuscule  
+`distinct-values(//pdv/prix/lower-case(@nom))`  
+`//prix/lower-case(@nom)`  
+21. Remplacer le point contenu dans l'attribut `latitude` par `--` (Attention, il faudra échapper le point)  
+`//pdv/translate(@latitude,".","--")`  
+`//pdv/replace(@latitude,"\.", "--")`  
+22. Inverser la date et l'heure dans les attributs `maj`, et changer le séparateur par `T` (t majuscule)  
+`//pdv/prix/string-join((substring-after(@maj ," "),substring-before(@maj , " ")),"T")`  
+`/pdv_liste/pdv/prix/string-join(reverse(tokenize(@maj, ' ')), 'T')`  

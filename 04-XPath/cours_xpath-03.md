@@ -203,8 +203,8 @@ for $i in .//adresse
 
 #### `intersect`
 
-1. Écrire une requête qui sélectionne les points de vente qui ont été en rupture et qui ne sont pas ouverts les dimanches.
-//pdv/
+1. Écrire une requête qui sélectionne les points de vente qui ont été en rupture et qui ne sont pas ouverts les dimanches.  
+
 
 #### `except`
 
