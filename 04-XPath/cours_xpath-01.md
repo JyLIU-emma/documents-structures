@@ -161,47 +161,47 @@ Il est possible de mélanger les notations abrégrées avec les notations compl�
 
 À partir du fichier `juicers.xml`
 
-1. Sélectionner la racine du document
-`/juicers`
-2. Tous les noeuds `juicer`
-`/juicers/juicer`
-3. Tous les noeuds `juicer` avec le contexte sur `<juicer>`
-`//juicer`
-4. Tous les noeuds `juicer` avec le chemin absolu
-5. Tous les noeuds attributs de `juicer`
-`./juicer/@*`
-6. Le texte des noeuds attributs de `juicer`
-`/juicers/juicer/@*/data()`
-7. Tous les enfants de `juicer`
-`/juicers/juicer/*` ou `/juicers/juicer/child::*`
-8. Tous les `juicer` qui ont un attribut `type="gear"`
-`//juicer[@type = "gear"]`
-9. Le premier `juicer`
-`/juicers/juicer[1]`
-10. Le dernier `juicer`
-`/juicers/juicer[last()]`
-11. La garantie pour le 4ième `juicer`
-`/juicers/juicer[4]/warranty`
-12. Les `juicer` avec un `cost` inférieur à `100`$
-`/juicers/juicer[cost < 100]`
-13. Les `juicer` qui n'ont pas d'image.
-`//juicer[not(image)]`
-14. À partir de la racine, afficher le dernier `juicer`
-`/juicers/juicer[last()]`
-15. À partir de la description du second `juicer`, afficher le dernier noeud ancêtre
-`ancestor::*[last()]`
-16. Compter le total de noeuds du document
-`count(//*)`
-**17. Afficher les noeuds avec 2 enfants et + **
-`//*[count(child::*) >= 2]` ou `//*[child::*[position() >= 2]]`
-18. Afficher tous les noeuds qui sont en seconde position
-`//*[2]`
-19. Trouver le nom de l'elément suivant l'élément `name`
-`//name/following-sibling::*[position()=1]/name()`
-20. Afficher les noeuds textes avec plus de 140 caractères
-`//text()[string-length(.) > 140]`
-21. Afficher tous les noeuds `juicer` avec une url en `.html`
-`//juicer/retailer[contains(text(), 'html')]`
+1. Sélectionner la racine du document  
+`/juicers`  
+2. Tous les noeuds `juicer`  
+`/juicers/juicer`  
+3. Tous les noeuds `juicer` avec le contexte sur `<juicer>`  
+`//juicer`  
+4. Tous les noeuds `juicer` avec le chemin absolu  
+5. Tous les noeuds attributs de `juicer`  
+`./juicer/@*`  
+6. Le texte des noeuds attributs de `juicer`  
+`/juicers/juicer/@*/data()`  
+7. Tous les enfants de `juicer`  
+`/juicers/juicer/*` ou `/juicers/juicer/child::*`  
+8. Tous les `juicer` qui ont un attribut `type="gear"`  
+`//juicer[@type = "gear"]`  
+9. Le premier `juicer`  
+`/juicers/juicer[1]`  
+10. Le dernier `juicer`  
+`/juicers/juicer[last()]`  
+11. La garantie pour le 4ième `juicer`  
+`/juicers/juicer[4]/warranty`  
+12. Les `juicer` avec un `cost` inférieur à `100`$  
+`/juicers/juicer[cost < 100]`  
+13. Les `juicer` qui n'ont pas d'image.  
+`//juicer[not(image)]`  
+14. À partir de la racine, afficher le dernier `juicer`  
+`/juicers/juicer[last()]`  
+15. À partir de la description du second `juicer`, afficher le dernier noeud ancêtre  
+`ancestor::*[last()]`  
+16. Compter le total de noeuds du document  
+`count(//*)`  
+**17. Afficher les noeuds avec 2 enfants et + **  
+`//*[count(child::*) >= 2]` ou `//*[child::*[position() >= 2]]`  
+18. Afficher tous les noeuds qui sont en seconde position  
+`//*[2]`  
+19. Trouver le nom de l'elément suivant l'élément `name`  
+`//name/following-sibling::*[position()=1]/name()`  
+20. Afficher les noeuds textes avec plus de 140 caractères  
+`//text()[string-length(.) > 140]`  
+21. Afficher tous les noeuds `juicer` avec une url en `.html`  
+`//juicer/retailer[contains(text(), 'html')]`  
 
 ### Partie 2
 
