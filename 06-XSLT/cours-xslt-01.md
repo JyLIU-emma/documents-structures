@@ -68,13 +68,13 @@ Dans cet exemple, je vais dire "sélectionne le noeud racine" ensuite écrit l'�
 ```
 
 ![apply-templates_vide](img-exemple/effet_apply-templates_vide.png)  
+
 Ici, ce `<xsl:apply-templates />` extrait le contenu texte de l'élément. Puisqu'il aura plus de règles après, on lui rajoute pas de balise. Mais, pensez à utiliser cette astuce quand on veut rajouter une balise sur les noeuds-fils (n'apparaissent pas forcément, à n'importe quel l'ordre) des éléments d'un nom précis. Par exemple, dans fichier html, transformer tous les caractères en italique dans un paragraphes en gras. 
 
 Quand on crée un template qui fait rien, on voit l'effet de son exécution quand même (ligne vide).  
+
 ![template_vide](img-exemple/template_vide.png)
 
-Différence entre `match="/"` et `match="racine"` : tout le texte sera charge ou pas dans ce template.  
-![match_racine](img-exemple/match_racine.png)
  
 #### Règles par défaut
 
@@ -171,9 +171,15 @@ Pour sélectionner la valeur d'un noeud, il existe l'élément `<xsl:value-of se
     </ul>
 </body>
 ```
-`/`  racine du document  != `<root>` élément racine
+
+**`/` racine du document  != `<root>` élément racine**
+
 Si on matché `/` dans template, il va sélectionné seulement la première ligne (instruction) dans le fichier xml, le processeur ne parcourt pas tout le fichier, plus économe
+
+![match_racine](img-exemple/match_racine.png)
+
 ---
+
 ## Transformation d'identité
 
 Bien souvent, on souhaite modifier qu'une seule partie du document. C'est à dire qu'une grande partie sera recopiée à l'identique.
@@ -187,7 +193,9 @@ Pour se faire, on peut utiliser ue transformation d'identité.
         </xsl:copy>
 </xsl:template>
 ```
+
 ![copy](img-exemple/copy.png)
+
 Ce template sélectionne n'importe quel noeud ou attribut, le recopie (`<xsl:copy>`) et s'applique à nouveau lui-même (par récursion) à tous les noeuds et attributs.
 
 Avec XSLT version 3, on peut éviter d'écrire ce template en utilisant l'instruction `<xsl:mode on-no-match="deep-copy"`. La valeur de l'attribut `@on-no-match` peut prendre plusieurs valeurs :
@@ -282,9 +290,13 @@ On peut vouloir donner le résultat d'une expression XPath en valeur d'attribut,
 Ici, l'expression `upper-case('fre')` sera évaluée par le processeur à cause des `{}`.
 
 Sans utilisation de `{}` :  
-![fonction_attribut](img-exemple/fonction_attribut.png)  
+
+![fonction_attribut](img-exemple/fonction_attribut.png) 
+ 
 Correctement fait :  
+
 ![fonction_attribut_correct](img-exemple/fonction_attribut_correct.png)  
+
 
 ---
 ## Exercice
